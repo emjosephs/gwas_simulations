@@ -8,8 +8,6 @@ Is there actually a bias towards detecting intermediate allele frequencies in GW
 
 What we want out is the relationship between MAF of causal alleles going in and the MAF detected coming out.
 
-
-
 Code for one simulation:
 
 ```r
@@ -76,6 +74,12 @@ points(1:200, mean.assoc.mafs, col = "purple")
 legend('bottomright', c('causal mean maf', 'mean maf of gwas hits'),bty="n", col = c("black","purple"), pch=1)
 ```
 
-![](gwas_simulator_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](gwas_simulator_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```r
+hist(mean.assoc.mafs - mean.causal.mafs, col="mediumpurple3", border="white")
+```
+
+![](gwas_simulator_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
 
 OK so clearly a skew towards intermediate allele frequencies. There are a potential issues here. First, I assume a uniform distribution of allele frequencies which is obviously inaccurate. Second, I'm not really getting at my false-positive or false-negative rate with this summary. Third, I chose a p value cut-off of 0.05, which is maybe too high. Also, there is probably a better way to plot this.
