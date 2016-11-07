@@ -19,7 +19,7 @@ pop = 500
 
 gwas_sim <- function(pop, loci, n){
 x1 <- runif(1) #getting a random number so there's a seed
-save(".Random.seed", file=paste("gwas_sims/randomSeed.",n, sep=""))
+#save(".Random.seed", file=paste("gwas_sims/randomSeed.",n, sep=""))
 
 #I'm starting with a uniform distribution of allele frequencies, which is obviously unrealistic, but lets us examine variation between different frequencies more easily.
 allele.frequencies = runif(loci, min=0, max=1) 
@@ -54,7 +54,8 @@ return(my.maf)
 
 initial.mafs = sapply(allele.frequencies, get.maf)
 assoc.mafs = initial.mafs[gwas.pvals < 0.05]
-causal.mafs = initial.mafs[0:50]
+causal.mafs.all = initial.mafs[0:50]
+causal.mafs = causal.mafs.all[causal.mafs.all > 0.05]
 
 return(list(causal.mafs,assoc.mafs))
 }
