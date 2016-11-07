@@ -50,7 +50,7 @@ else {my.maf = f}
 return(my.maf)
 }
 
-initial.mafs = sapply(allele.frequencies, get.maf)
+initial.mafs = sapply(real.freqs, get.maf)
 assoc.mafs = initial.mafs[gwas.pvals < 0.05]
 causal.mafs.all = initial.mafs[0:50]
 causal.mafs = causal.mafs.all[causal.mafs.all > 0.05]
@@ -83,3 +83,23 @@ hist(mean.assoc.mafs - mean.causal.mafs, col="mediumpurple3", border="white")
 ![](gwas_simulator_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
 
 OK so clearly a skew towards intermediate allele frequencies. There are a potential issues here. First, I assume a uniform distribution of allele frequencies which is obviously inaccurate. Second, I'm not really getting at my false-positive or false-negative rate with this summary. Third, I chose a p value cut-off of 0.05, which is maybe too high. Also, there is probably a better way to plot this.
+
+How much worse is it with a smaller population size?
+
+```r
+gwas.sims.pop100 = sapply(1:200, function(x){gwas_sim(100,100,x)})
+mean.causal.mafs = sapply(gwas.sims.pop100[1,], mean)
+mean.assoc.mafs = sapply(gwas.sims.pop100[2,],mean)
+
+plot(1:200, mean.causal.mafs, ylim = c(0,0.5))
+points(1:200, mean.assoc.mafs, col = "purple")
+legend('bottomright', c('causal mean maf', 'mean maf of gwas hits'),bty="n", col = c("black","purple"), pch=1)
+```
+
+![](gwas_simulator_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
+hist(mean.assoc.mafs - mean.causal.mafs, col="mediumpurple3", border="white")
+```
+
+![](gwas_simulator_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
